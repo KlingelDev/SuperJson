@@ -40,11 +40,13 @@ int test_openfile() {
     return 1;
   }
 
-  fprintf(jtestfile, "{ \"test\"= 1}");
+  fprintf(jtestfile, "{ \"test\"= 1 }");
   fclose(jtestfile);
 
   FILE *testfile;
   testfile = jsonfopen(testfp, "r");
+
+  remove(testfp);
 
   return 0;
 }
