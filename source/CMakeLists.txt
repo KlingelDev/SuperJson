@@ -15,3 +15,9 @@ add_library(libsuperjson
 enable_testing()
 
 add_test(NAME tsj01_openfile COMMAND testsuperjson01 --config openfile)
+add_test(NAME tsj01_readfile COMMAND testsuperjson01 --config readfile)
+add_test(NAME tsj01_openclosebracket COMMAND testsuperjson01 --config openclose)
+add_test(NAME tsj01_openclosebracket_fail COMMAND testsuperjson01 --config
+  openclose_fail)
+set_property(TEST tsj01_openclosebracket_fail PROPERTY WILL_FAIL TRUE)
+
