@@ -17,12 +17,18 @@ int main(int argc, char *argv[]) {
   AddTest(tests, "readfile", test_readfile);
   AddTest(tests, "openclose", test_openclosebracket);
   AddTest(tests, "openclose_fail", test_openclosebracket_fail);
+  AddTest(tests, "getelements", test_getelements);
 
+  setup_once();
   int r = RunTest(tests, argc, argv);
 
   free(tests);
 
   return r;
+}
+
+int setup_once() {
+
 }
 
 int test_openfile() {
@@ -102,6 +108,20 @@ int test_openclosebracket() {
 
 int test_openclosebracket_fail() {
   char fp[] = "../source/tests/testfiles/test02_broken.json";
+  char *abspath = realpath(fp, NULL);
+
+  FILE *tjsonfile;
+  tjsonfile = jsonfopen(abspath, "r");
+  uint64_t bsize = 4096;
+  char buffer[bsize];
+  int r = 0;
+  r = check_openclose(tjsonfile);
+
+  return r;
+}
+
+int test_getelements() {
+  char fp[] = "../source/tests/testfiles/test02.json";
   char *abspath = realpath(fp, NULL);
 
   FILE *tjsonfile;

@@ -35,6 +35,21 @@ int jsonfread(FILE *fstream, char *buffer, uint64_t buffersize) {
   return 1;
 }
 
+sjsontree_t *get_elements(FILE *fstream) {
+  fseek(fstream, 0, SEEK_CUR);
+
+  int bsize = 4096;
+  char buff[bsize];
+  while(fgets(buff, bsize, fstream)) {
+    int i;
+
+    for(i = 0; i < strlen(buff); i++) {
+      char c = buff[i];
+    }
+
+  }
+}
+
 int check_openclose(FILE *fstream) {
   fseek(fstream, 0, SEEK_CUR);
 

@@ -20,4 +20,4 @@ add_test(NAME tsj01_openclosebracket COMMAND testsuperjson01 --config openclose)
 add_test(NAME tsj01_openclosebracket_fail COMMAND testsuperjson01 --config
   openclose_fail)
 set_property(TEST tsj01_openclosebracket_fail PROPERTY WILL_FAIL TRUE)
-
+add_test(NAME tsj01_getelements COMMAND testsuperjson01 --config getelements)
