@@ -36,17 +36,55 @@ int jsonfread(FILE *fstream, char *buffer, uint64_t buffersize) {
 }
 
 sjsontree_t *get_elements(FILE *fstream) {
-  fseek(fstream, 0, SEEK_CUR);
-
+  fseek(fstream, 0, SEEK_SET);
+  uint64_t b_num = 0;
   int bsize = 4096;
   char buff[bsize];
+
+  uint64_t f_dquote = NULL;
+  uint64_t s_dquote = NULL;
+  uint64_t colon = NULL;
+
+  int a[3][3];
+  int ai = 0;
+
   while(fgets(buff, bsize, fstream)) {
     int i;
 
     for(i = 0; i < strlen(buff); i++) {
       char c = buff[i];
-    }
 
+      if(c == '"') {
+        if(!f_dquote) { f_dquote = b_num; }
+        else if(!s_dquote) { s_dquote = b_num; }
+        else if(f_dquote && s_dquote) { f_dquote = NULL; s_dquote = NULL; }
+      }
+
+      if(c == ':') {
+        if(f_dquote && s_dquote) {
+          // complete, reset
+          printf("F %d S %d C %d\n", f_dquote, s_dquote, b_num);
+
+          a[ai][0] = f_dquote;
+          a[ai][1] = s_dquote;
+          a[ai][2] = b_num+1;
+          ai++;
+
+          f_dquote = NULL;
+          s_dquote = NULL;
+        }
+      }
+      b_num++;
+    }
+  }
+
+  int i;
+  for(i = 0; i < ai; i++) {
+    int sbuffsize = a[i][2] - a[i][0] +1;
+    char sbuffer[sbuffsize];
+    fseek(fstream, a[i][0], SEEK_SET);
+    fgets(sbuffer, sbuffsize, fstream);
+    printf("%s\n", sbuffer);
   }
 }
 

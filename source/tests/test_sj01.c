@@ -121,15 +121,14 @@ int test_openclosebracket_fail() {
 }
 
 int test_getelements() {
-  char fp[] = "../source/tests/testfiles/test02.json";
+  char fp[] = "../source/tests/testfiles/test03.json";
   char *abspath = realpath(fp, NULL);
 
   FILE *tjsonfile;
   tjsonfile = jsonfopen(abspath, "r");
   uint64_t bsize = 4096;
   char buffer[bsize];
-  int r = 0;
-  r = check_openclose(tjsonfile);
+  get_elements(tjsonfile);
 
-  return r;
+  return 0;
 }
