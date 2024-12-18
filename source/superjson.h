@@ -23,3 +23,4 @@ int jsonfclose(FILE *fstream);
 
 int check_openclose(FILE *fstream);
 sjsontree_t *get_elements(FILE *fstream);
+sjsontree_t *add_element(char name[], sjsontree_t *prev);

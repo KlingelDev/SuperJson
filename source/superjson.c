@@ -1,6 +1,7 @@
 #include <linux/limits.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -78,14 +79,36 @@ sjsontree_t *get_elements(FILE *fstream) {
     }
   }
 
+  sjsontree_t *jt = NULL;
   int i;
   for(i = 0; i < ai; i++) {
     int sbuffsize = a[i][2] - a[i][0] +1;
     char sbuffer[sbuffsize];
     fseek(fstream, a[i][0], SEEK_SET);
     fgets(sbuffer, sbuffsize, fstream);
-    printf("%s\n", sbuffer);
+
+    if(!jt) {
+      jt = add_element(sbuffer, NULL);
+
+    } else {
+      jt = add_element(sbuffer, jt);
+
+    }
+
+    printf("%s %s\n", sbuffer, jt->name);
   }
+
+  sjsontree_t *tree = malloc(sizeof(sjsontree_t));
+  return tree;
+}
+
+// Add element to chain
+sjsontree_t *add_element(char name[], sjsontree_t *prev) {
+  sjsontree_t *njt = malloc(sizeof(sjsontree_t));
+  strcpy(njt->name, name);
+  njt->next = NULL;
+  njt->prev = prev;
+  return njt;
 }
 
 int check_openclose(FILE *fstream) {
