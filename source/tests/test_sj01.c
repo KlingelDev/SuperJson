@@ -58,10 +58,11 @@ int test_openfile() {
   if(testfile != NULL) {
     jsonfclose(testfile);
     remove(testfp);
-    return 0;
+
+    return AssertPass;
   }
 
-  return 1;
+  return AssertFail;
 }
 
 int test_readfile_null() {
@@ -75,7 +76,7 @@ int test_readfile_null() {
   free(tjsonfile);
   free(buffer);
 
-  return !r;
+  return AssertThat(r, EqualTo(1));
 }
 
 int test_readfile() {
@@ -89,7 +90,7 @@ int test_readfile() {
   int r = 0;
   r = jsonfread(tjsonfile, buffer, bsize);
 
-  return !r;
+  return AssertThat(r, EqualTo(1));
 }
 
 int test_openclosebracket() {
@@ -103,7 +104,7 @@ int test_openclosebracket() {
   int r = 0;
   r = check_openclose(tjsonfile);
 
-  return r;
+  return AssertThat(r, EqualToZero);
 }
 
 int test_openclosebracket_fail() {
@@ -117,7 +118,7 @@ int test_openclosebracket_fail() {
   int r = 0;
   r = check_openclose(tjsonfile);
 
-  return r;
+  return AssertThat(r, EqualToZero);
 }
 
 int test_getelements() {
@@ -130,5 +131,5 @@ int test_getelements() {
   char buffer[bsize];
   get_elements(tjsonfile);
 
-  return 0;
+  return AssertPass;
 }

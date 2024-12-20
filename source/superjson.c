@@ -48,6 +48,7 @@ sjsontree_t *get_elements(FILE *fstream) {
 
   int a[3][3];
   int ai = 0;
+  sjsonfindex_t *index = NULL;
 
   while(fgets(buff, bsize, fstream)) {
     int i;
@@ -66,10 +67,8 @@ sjsontree_t *get_elements(FILE *fstream) {
           // complete, reset
           printf("F %d S %d C %d\n", f_dquote, s_dquote, b_num);
 
-          a[ai][0] = f_dquote;
-          a[ai][1] = s_dquote;
-          a[ai][2] = b_num+1;
-          ai++;
+          index = add_sjindex(f_dquote, b_num+1, index);
+          printf("I %s\n", index->next ? "true" : "false");
 
           f_dquote = NULL;
           s_dquote = NULL;
@@ -80,11 +79,12 @@ sjsontree_t *get_elements(FILE *fstream) {
   }
 
   sjsontree_t *jt = NULL;
-  int i;
-  for(i = 0; i < ai; i++) {
-    int sbuffsize = a[i][2] - a[i][0] +1;
+  printf("next %s \n", index->next ? "true": "false");
+  while(index->next != NULL) {
+    int sbuffsize = index->end - index->start +1;
     char sbuffer[sbuffsize];
-    fseek(fstream, a[i][0], SEEK_SET);
+
+    fseek(fstream, index->start, SEEK_SET);
     fgets(sbuffer, sbuffsize, fstream);
 
     if(!jt) {
@@ -92,8 +92,9 @@ sjsontree_t *get_elements(FILE *fstream) {
 
     } else {
       jt = add_element(sbuffer, jt);
-
     }
+
+    index = index->next;
 
     printf("%s %s\n", sbuffer, jt->name);
   }
@@ -109,6 +110,20 @@ sjsontree_t *add_element(char name[], sjsontree_t *prev) {
   njt->next = NULL;
   njt->prev = prev;
   return njt;
+}
+
+// Add Index
+sjsonfindex_t *add_sjindex(uint64_t start, uint64_t end, sjsonfindex_t *prev) {
+  sjsonfindex_t *nsji = malloc(sizeof(sjsonfindex_t));
+  nsji->start = start;
+  nsji->end = end;
+
+  nsji->prev = prev;
+  if(prev) {
+    prev->next = nsji;
+  }
+
+  return nsji;
 }
 
 int check_openclose(FILE *fstream) {
