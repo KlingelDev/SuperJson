@@ -28,14 +28,13 @@ int main(int argc, char *argv[]) {
 }
 
 int setup_once() {
-
 }
 
 int test_openfile() {
   char cwd[PATH_MAX+1];
   if(getcwd(cwd, sizeof(cwd)) == NULL) {
     perror("getcwd error.\n");
-    return 1;
+    return AssertFail;
   }
 
   char testfp[PATH_MAX+1];
@@ -76,7 +75,7 @@ int test_readfile_null() {
   free(tjsonfile);
   free(buffer);
 
-  return AssertThat(r, EqualTo(1));
+  return AssertThat(r, IsEqualTo(1));
 }
 
 int test_readfile() {
@@ -90,7 +89,7 @@ int test_readfile() {
   int r = 0;
   r = jsonfread(tjsonfile, buffer, bsize);
 
-  return AssertThat(r, EqualTo(1));
+  return AssertThat(r, IsEqualTo(1));
 }
 
 int test_openclosebracket() {
@@ -104,7 +103,7 @@ int test_openclosebracket() {
   int r = 0;
   r = check_openclose(tjsonfile);
 
-  return AssertThat(r, EqualToZero);
+  return AssertThat(r, IsEqualToZero);
 }
 
 int test_openclosebracket_fail() {
@@ -118,7 +117,7 @@ int test_openclosebracket_fail() {
   int r = 0;
   r = check_openclose(tjsonfile);
 
-  return AssertThat(r, EqualToZero);
+  return AssertThat(r, IsEqualToZero);
 }
 
 int test_getelements() {
