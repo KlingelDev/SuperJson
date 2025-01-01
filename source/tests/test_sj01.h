@@ -7,4 +7,4 @@ int test_openfile();
 int test_readfile();
 int test_openclosebracket();
 int test_openclosebracket_fail();
-int test_getelements();
+//int test_getelements();

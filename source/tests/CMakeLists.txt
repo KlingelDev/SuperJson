@@ -11,5 +11,9 @@ add_executable(testsuperjson01
   test_sj01.c
 )
 
+add_executable(testsjtree01
+  test_sjtree01.c
+)
 target_link_libraries(testsuperjson01 libtestsuite libsuperjson)
+target_link_libraries(testsjtree01 libtestsuite libsuperjson)
 

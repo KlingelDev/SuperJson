@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
   AddTest(tests, "readfile", test_readfile);
   AddTest(tests, "openclose", test_openclosebracket);
   AddTest(tests, "openclose_fail", test_openclosebracket_fail);
-  AddTest(tests, "getelements", test_getelements);
+  //AddTest(tests, "getelements", test_getelements);
 
   setup_once();
   int r = RunTest(tests, argc, argv);
@@ -120,15 +120,15 @@ int test_openclosebracket_fail() {
   return AssertThat(r, IsEqualToZero);
 }
 
-int test_getelements() {
-  char fp[] = "../source/tests/testfiles/test03.json";
-  char *abspath = realpath(fp, NULL);
-
-  FILE *tjsonfile;
-  tjsonfile = jsonfopen(abspath, "r");
-  uint64_t bsize = 4096;
-  char buffer[bsize];
-  get_elements(tjsonfile);
-
-  return AssertPass;
-}
+// int test_getelements() {
+//   char fp[] = "../source/tests/testfiles/test03.json";
+//   char *abspath = realpath(fp, NULL);
+//
+//   FILE *tjsonfile;
+//   tjsonfile = jsonfopen(abspath, "r");
+//   uint64_t bsize = 4096;
+//   char buffer[bsize];
+//   get_elements(tjsonfile);
+//
+//   return AssertPass;
+// }

@@ -7,6 +7,7 @@
 #include <unistd.h>
 
 #include "superjson.h"
+#include "sjtree.h"
 
 FILE *jsonfopen(char fn[PATH_MAX+1], char flag[3]) {
   FILE *fstream = fopen(fn, flag);
@@ -78,52 +79,29 @@ sjsontree_t *get_elements(FILE *fstream) {
     }
   }
 
-  sjsontree_t *jt = NULL;
-  printf("next %s \n", index->next ? "true": "false");
-  while(index->next != NULL) {
-    int sbuffsize = index->end - index->start +1;
-    char sbuffer[sbuffsize];
-
-    fseek(fstream, index->start, SEEK_SET);
-    fgets(sbuffer, sbuffsize, fstream);
-
-    if(!jt) {
-      jt = add_element(sbuffer, NULL);
-
-    } else {
-      jt = add_element(sbuffer, jt);
-    }
-
-    index = index->next;
-
-    printf("%s %s\n", sbuffer, jt->name);
-  }
+  //sjsontree_t *jt = NULL;
+  // printf("next %s \n", index->next ? "true": "false");
+  // while(index->next != NULL) {
+  //   int sbuffsize = index->end - index->start +1;
+  //   char sbuffer[sbuffsize];
+  //
+  //   fseek(fstream, index->start, SEEK_SET);
+  //   fgets(sbuffer, sbuffsize, fstream);
+  //
+  //   if(!jt) {
+  //     jt = add_element(sbuffer, NULL);
+  //
+  //   } else {
+  //     jt = add_element(sbuffer, jt);
+  //   }
+  //
+  //   index = index->next;
+  //
+  //   printf("%s %s\n", sbuffer, jt->name);
+  // }
 
   sjsontree_t *tree = malloc(sizeof(sjsontree_t));
   return tree;
-}
-
-// Add element to chain
-sjsontree_t *add_element(char name[], sjsontree_t *prev) {
-  sjsontree_t *njt = malloc(sizeof(sjsontree_t));
-  strcpy(njt->name, name);
-  njt->next = NULL;
-  njt->prev = prev;
-  return njt;
-}
-
-// Add Index
-sjsonfindex_t *add_sjindex(uint64_t start, uint64_t end, sjsonfindex_t *prev) {
-  sjsonfindex_t *nsji = malloc(sizeof(sjsonfindex_t));
-  nsji->start = start;
-  nsji->end = end;
-
-  nsji->prev = prev;
-  if(prev) {
-    prev->next = nsji;
-  }
-
-  return nsji;
 }
 
 int check_openclose(FILE *fstream) {
@@ -170,6 +148,20 @@ int check_openclose(FILE *fstream) {
 
   }
 } // check_openclose
+
+// Add Index
+sjsonfindex_t *add_sjindex(uint64_t start, uint64_t end, sjsonfindex_t *prev) {
+  sjsonfindex_t *nsji = malloc(sizeof(sjsonfindex_t));
+  nsji->start = start;
+  nsji->end = end;
+
+  nsji->prev = prev;
+  if(prev) {
+    prev->next = nsji;
+  }
+
+  return nsji;
+}
 
 int jsonfclose(FILE *fstream) {
   fclose(fstream);

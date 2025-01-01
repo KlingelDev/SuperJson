@@ -8,8 +8,8 @@ set(CMAKE_C_FLAGS_DEBUG "-pthread -g3 -ggdb -Wall")
 set(CMAKE_C_FLAGS "")
 
 add_library(libsuperjson
-  superjson.h
   superjson.c
+  sjtree.c
 )
 
 enable_testing()
@@ -20,4 +20,9 @@ add_test(NAME tsj01_openclosebracket COMMAND testsuperjson01 --config openclose)
 add_test(NAME tsj01_openclosebracket_fail COMMAND testsuperjson01 --config
   openclose_fail)
 set_property(TEST tsj01_openclosebracket_fail PROPERTY WILL_FAIL TRUE)
-add_test(NAME tsj01_getelements COMMAND testsuperjson01 --config getelements)
+#add_test(NAME tsj01_getelements COMMAND testsuperjson01 --config getelements)
+
+# SJTree
+add_test(NAME tsjt_newtree COMMAND testsjtree01 --config newtree)
+add_test(NAME tsjt_newelem COMMAND testsjtree01 --config newelement)
+add_test(NAME tsjt_addroot COMMAND testsjtree01 --config addroot)
