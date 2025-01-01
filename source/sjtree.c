@@ -7,7 +7,7 @@
 
 #include "sjtree.h"
 
-sjsontree_t *sjt_new(uint8_t type, char identifier[PATH_MAX+1]) {
+sjsontree_t *sjt_new(uint8_t type, char identifier[NAMEMAX]) {
   sjsontree_t *tree = malloc(sizeof(sjsontree_t));
   tree->type = type;
   strcpy(tree->identifier, identifier);
@@ -15,15 +15,22 @@ sjsontree_t *sjt_new(uint8_t type, char identifier[PATH_MAX+1]) {
   return tree;
 }
 
-sjtelem_t *sjt_addroot(sjsontree_t *tree) {
-  sjtelem_t *e = sjt_elemnew();
+sjtelem_t *sjt_addroot(sjsontree_t *tree,
+                       uint64_t pos,
+                       char elementname[NAMEMAX]) {
+  sjtelem_t *e = sjt_elemnew(0, pos, elementname);
   tree->root = e;
 
   return e;
 }
 
-sjtelem_t *sjt_elemnew() {
-  sjtelem_t *e =  malloc(sizeof(sjtelem_t));
+sjtelem_t *sjt_elemnew(uint64_t level,
+                       uint64_t pos,
+                       char elementname[NAMEMAX]) {
+  sjtelem_t *e = malloc(sizeof(sjtelem_t));
+  e->level = level;
+  e->pos = pos;
+  strcpy(e->ename, elementname);
   return e;
 }
 

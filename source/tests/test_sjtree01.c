@@ -35,22 +35,22 @@ int test_newtree() {
 }
 
 int test_newelem() {
-  sjtelem_t *e = sjt_elemnew();
+  sjtelem_t *e = sjt_elemnew(0, 0, "Test");
 
   return AssertPass;
 }
 
 int test_addroot() {
   sjsontree_t *tree = sjt_new(2, "test");
-  sjtelem_t *root = sjt_addroot(tree);
+  sjtelem_t *root = sjt_addroot(tree, 0, "test");
 
   return AssertPass;
 }
 
 int test_append() {
   sjsontree_t *tree = sjt_new(2, "test");
-  sjtelem_t *root = sjt_addroot(tree);
-  sjtelem_t *e = sjt_elemnew();
+  sjtelem_t *root = sjt_addroot(tree, 0, "test");
+  sjtelem_t *e = sjt_elemnew(0, 0, "test");
   sjtelem_t *a = sjt_append(root, e);
 
   return AssertThat(e, IsEqualTo(a));
