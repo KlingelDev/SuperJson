@@ -36,8 +36,8 @@ sjtelem_t *sjt_elemnew(uint64_t level,
 
 sjtelem_t *sjt_append(sjtelem_t *root,
                       sjtelem_t *elem) {
-
   root->next = elem;
+  elem->root = root;
   return elem;
 }
 
@@ -48,3 +48,13 @@ sjtelem_t *sjt_remove(sjtelem_t *elem) {
 sjtelem_t *sjt_free(sjtelem_t *elem) {
 
 }
+
+sjtelem_t *sjt_getlast(sjtelem_t *elem) {
+  sjtelem_t *e = elem;
+  while(e->next) {
+    e = e->next;
+  }
+
+  return e;
+}
+

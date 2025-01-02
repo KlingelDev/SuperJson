@@ -35,4 +35,4 @@ sjtelem_t *sjt_addroot(sjsontree_t *tree,
 sjtelem_t *sjt_append(sjtelem_t *root, sjtelem_t *elem);
 sjtelem_t *sjt_remove(sjtelem_t *elem);
 sjtelem_t *sjt_free(sjtelem_t *elem);
-
+sjtelem_t *sjt_getlast(sjtelem_t *elem);
